@@ -18,7 +18,7 @@ def generate_metrics(subclass):
         short_name = field[1]
         metric_name = class_name + "_" + field[1]
         metric_name = metric_name.replace(" ", "_")
-        return short_name, Gauge(metric_name, help_text)
+        return short_name, Gauge(metric_name, help_text, ['talker'])
 
     return class_name, dict(map(generate_metric, subclass.fields))
 
@@ -69,7 +69,7 @@ async def handle_message(msg):
         except:
             # print(raw_value, type(raw_value))
             continue
-        metrics[msg.sentence_type][short_name].set(value)
+        metrics[msg.sentence_type][short_name].labels(talker=msg.talker).set(value)
 
     if hasattr(msg, "timestamp"):
         await handle_timestamp(msg.timestamp)
