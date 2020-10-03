@@ -67,7 +67,7 @@ async def handle_message(msg):
         try:
             value = float(raw_value)
         except:
-            print(raw_value, type(raw_value))
+            # print(raw_value, type(raw_value))
             continue
         metrics[msg.sentence_type][short_name].set(value)
 
@@ -76,7 +76,7 @@ async def handle_message(msg):
 
 
 async def main():
-    with open("plaka.log", encoding="utf-8") as nema_file:
+    with open("nmea0183.dat", encoding="utf-8") as nema_file:
         for line in nema_file.readlines():
             try:
                 msg = pynmea2.parse(line, check=True)
